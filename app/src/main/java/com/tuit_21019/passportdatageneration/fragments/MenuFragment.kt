@@ -27,10 +27,10 @@ class MenuFragment : Fragment() {
         return binding!!.root
     }
     private fun setCLicks() {
-        binding!!.cardCitizensList.setOnClickListener {
+        binding!!.citizensListBtn.setOnClickListener {
             findNavController().navigate(R.id.citizensListFragment)
         }
-        binding!!.cardAddPassportData.setOnClickListener {
+        binding!!.addPassportDataBtn.setOnClickListener {
             findNavController().navigate(R.id.addPasportDataFragment)
         }
     }

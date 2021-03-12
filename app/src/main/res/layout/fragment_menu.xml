@@ -2,65 +2,53 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_gravity="center"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
     tools:context=".fragments.MenuFragment">
 
-    <androidx.cardview.widget.CardView
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:id="@+id/card_citizens_list"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/citizens_list_btn"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/card_add_passport_data"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="16dp"
-        app:cardElevation="8dp"
-        android:backgroundTint="#22E286"
-        app:cardCornerRadius="6dp"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:id="@+id/citizens_list_btn"
-            android:backgroundTint="#22E286"
-            android:shadowDy="8000"
-            android:foreground="?selectableItemBackground"
-            android:textAllCaps="false"
-            android:textColor="#fff"
-            android:outlineSpotShadowColor="@android:color/transparent"
-            android:shadowDx="8000"
-            android:shadowRadius="5000"
-            android:text="Barcha fuqarolar"
-            android:layout_height="50dp"
-            tools:targetApi="p" />
-    </androidx.cardview.widget.CardView>
-
-
-    <androidx.cardview.widget.CardView
-        android:layout_marginTop="30dp"
-        android:layout_width="wrap_content"
-        android:id="@+id/card_add_passport_data"
-        app:layout_constraintTop_toBottomOf="@id/card_citizens_list"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:cardCornerRadius="6dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:backgroundTint="#22E286"
-        android:layout_marginBottom="16dp"
-        app:cardElevation="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:foreground="?selectableItemBackground"
-            android:text="Fuqaroga passport berish"
-            android:id="@+id/add_passport_data_btn"
-            android:textColor="#fff"
-            android:outlineSpotShadowColor="@android:color/transparent"
-            android:backgroundTint="#22E286"
-            android:textAllCaps="false"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            tools:targetApi="p" />
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintBottom_toTopOf="@id/add_passport_data_btn"
+        android:background="@drawable/menu_btn_bg"
+        android:backgroundTint="#22E286"
+        android:shadowDx="8000"
+        android:shadowDy="8000"
+        android:shadowColor="@color/main_color"
+        android:outlineSpotShadowColor="@color/main_color"
+        android:outlineAmbientShadowColor="@color/main_color"
+        android:shadowRadius="1600"
+        android:text="Barcha fuqarolar"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        tools:targetApi="p" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/add_passport_data_btn"
+        android:layout_width="240dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/menu_btn_bg"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/citizens_list_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:backgroundTint="#22E286"
+        android:shadowDx="8000"
+        android:shadowDy="8000"
+        android:shadowColor="@color/main_color"
+        android:outlineSpotShadowColor="@color/main_color"
+        android:outlineAmbientShadowColor="@color/main_color"
+        android:shadowRadius="1600"
+        android:text="Fuqaroga passport berish"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        tools:targetApi="p" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
