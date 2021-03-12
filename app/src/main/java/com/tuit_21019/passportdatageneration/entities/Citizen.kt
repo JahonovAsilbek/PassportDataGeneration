@@ -26,7 +26,7 @@ class Citizen : Serializable {
 
     var uyining_manzili: String? = null
 
-    var passport_raqami:String?=null
+    var passport_raqami: String? = null
 
     var passport_olgan_vaqti: String? = null
 

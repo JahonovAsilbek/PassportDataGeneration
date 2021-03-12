@@ -59,7 +59,7 @@ class CitizenDataFragment : Fragment() {
             binding.image.setImageResource(R.drawable.ic_baseline_image_24)
         }
 
-        binding.toolbar.title="${citizen?.ismi} ${citizen?.familyasi}"
+        binding.toolbar.title = "${citizen?.ismi} ${citizen?.familyasi}"
         binding.name.text = "Ismi: ${citizen?.ismi}"
         binding.surname.text = "Familiyasi: ${citizen?.familyasi}"
         binding.patronomic.text = "Familiyasi: ${citizen?.otasining_ismi}"

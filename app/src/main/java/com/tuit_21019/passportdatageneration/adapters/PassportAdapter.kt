@@ -10,7 +10,7 @@ import com.tuit_21019.passportdatageneration.entities.Citizen
 class PassportAdapter : RecyclerView.Adapter<PassportAdapter.VH>() {
 
     private var citizenList: ArrayList<Citizen>? = null
-     var onItemClick: OnItemClick? = null
+    var onItemClick: OnItemClick? = null
 
     fun setAdapter(citizenList: ArrayList<Citizen>) {
         this.citizenList = citizenList
@@ -21,7 +21,7 @@ class PassportAdapter : RecyclerView.Adapter<PassportAdapter.VH>() {
 
         @SuppressLint("SetTextI18n")
         fun onBind(citizen: Citizen) {
-            itemPassportBinding.sequence.text = citizen.id.toString()+"."
+            itemPassportBinding.sequence.text = citizen.id.toString() + "."
             itemPassportBinding.name.text = "${citizen.familyasi} ${citizen.ismi}"
             itemPassportBinding.passport.text = citizen.passport_raqami
 
