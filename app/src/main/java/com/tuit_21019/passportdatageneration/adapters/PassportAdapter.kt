@@ -21,7 +21,7 @@ class PassportAdapter : RecyclerView.Adapter<PassportAdapter.VH>() {
 
         @SuppressLint("SetTextI18n")
         fun onBind(citizen: Citizen) {
-            itemPassportBinding.sequence.text = citizen.id.toString()
+            itemPassportBinding.sequence.text = citizen.id.toString()+"."
             itemPassportBinding.name.text = "${citizen.familyasi} ${citizen.ismi}"
             itemPassportBinding.passport.text = citizen.passport_raqami
 

@@ -68,7 +68,7 @@ class CitizenDataFragment : Fragment() {
         binding.adress.text = "Uy manzili: ${citizen?.uyining_manzili}"
         binding.passportNumber.text = "Passport raqami: ${citizen?.passport_raqami}"
         binding.dateOfIssue.text = "Passport berilgan sanasi: ${citizen?.passport_olgan_vaqti}"
-        binding.dateOfExpiry.text = "Passport muddati${citizen?.passport_muddati}"
+        binding.dateOfExpiry.text = "Passport muddati: ${citizen?.passport_muddati}"
         binding.sex.text = "Jinsi: ${citizen?.jinsi}"
     }
 
