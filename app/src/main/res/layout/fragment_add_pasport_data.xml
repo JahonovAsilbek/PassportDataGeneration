@@ -173,6 +173,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:src="@drawable/select_image"
+                android:scaleType="centerInside"
                 android:layout_width="160dp"
                 android:layout_height="160dp" />
 

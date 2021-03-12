@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="32sp"
+        android:padding="16dp"
+        android:id="@+id/choose_text"
+        android:gravity="center"
+        android:textColor="@color/my_black_color"
+        android:text="Rasm yuklash turini tanlang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/choose_camera_btn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
+        app:layout_constraintTop_toBottomOf="@id/choose_text"
+        android:text="CAMERA"
+        android:backgroundTint="#fff"
+        app:layout_constraintRight_toLeftOf="@id/choose_gallery_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/choose_gallery_btn"
+        app:layout_constraintRight_toRightOf="parent"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
+        app:layout_constraintTop_toBottomOf="@id/choose_text"
+        android:text="GALLERY"
+        app:layout_constraintLeft_toRightOf="@id/choose_camera_btn"
+        android:backgroundTint="#fff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/choose_gallery_btn"
+        android:shadowColor="@android:color/transparent"
+        android:id="@+id/dialog_bekor_qilish"
+        android:text="Bekor qilish"
+        android:textColor="@color/my_black_color"
+        android:textSize="10sp"
+        android:layout_marginRight="8dp"
+        android:backgroundTint="#fff"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

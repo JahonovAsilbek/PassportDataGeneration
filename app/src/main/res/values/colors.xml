@@ -10,4 +10,5 @@
     <color name="main_color">#52CA6C</color>
     <color name="et_color">#EDEBEB</color>
     <color name="et_border_color">#BAB8B8</color>
+    <color name="my_black_color">#303B4F</color>
 </resources>
