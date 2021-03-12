@@ -28,6 +28,7 @@ import com.tuit_21019.passportdatageneration.dao.CitizenDao
 import com.tuit_21019.passportdatageneration.database.AppDatabase
 import com.tuit_21019.passportdatageneration.databinding.CameraOrGalleryDialogBinding
 import com.tuit_21019.passportdatageneration.databinding.FragmentAddPasportDataBinding
+import com.tuit_21019.passportdatageneration.entities.Citizen
 import kotlinx.android.synthetic.main.camera_or_gallery_dialog.view.*
 import java.io.File
 import java.io.FileOutputStream
@@ -117,7 +118,7 @@ class AddPasportDataFragment : Fragment() {
         val ins = activity?.contentResolver?.openInputStream(uri)
         var son = 0
         if (db.getAllCitizens().size != 0) {
-            son=db.getAllCitizens()[db.getAllCitizens().size].id!!
+            son=db.getAllCitizens()[db.getAllCitizens().size-1].id!!
         }
         val file = File(activity?.filesDir, "imageNew${son}.jpg")
         val fileOutputStream = FileOutputStream(file)
@@ -164,6 +165,30 @@ class AddPasportDataFragment : Fragment() {
 
             dialog.show()
         }
+
+        binding.saqlashBtn.setOnClickListener{
+            var ismi = binding.fuqaroIsmiEt.text.toString().trim()
+            var familyasi = binding.fuqaroFamilyasiEt.text.toString().trim()
+            var otasining_ismi = binding.fuqaroOtasiningIsmiEt.text.toString().trim()
+            var viloyati = viloyatList!![binding.viloyatiSpinner.selectedItemPosition]
+            var shahar_tuman = binding.shaharTumanEt.text.toString().trim()
+            var uyining_manzili = binding.uyiningManziliEt.text.toString().trim()
+            var passport_olgan_vaqti = binding.passportOlganVaqtiEt.text.toString().trim()
+            var passport_muddati = binding.passportMuddatiEt.text.toString().trim()
+            var passport_seriya_raqami = binding.passportSeriyaRaqamEt.text.toString().trim()
+            var jinsi = jinsList!![binding.jinsiSpinner.selectedItemPosition]
+            if (ismi != "" && familyasi != "" && otasining_ismi != "" && viloyati != "" && shahar_tuman != ""
+                && uyining_manzili != "" && passport_olgan_vaqti != "" && passport_muddati != ""
+                && passport_seriya_raqami != "" && jinsi != "" && image_path!="") {
+
+                db.insertCitizen(Citizen(ismi,familyasi,otasining_ismi,viloyati,shahar_tuman,uyining_manzili,
+                    passport_seriya_raqami,passport_olgan_vaqti,passport_muddati,jinsi,image_path))
+
+                Snackbar.make(binding.root,"Muvaffaqiyatli qo'shildi",Snackbar.LENGTH_LONG).show()
+            } else{
+                Snackbar.make(binding.root,"Barcha maydonlarni to'ldiring!",Snackbar.LENGTH_LONG).show()
+            }
+        }
     }
 
 
@@ -179,7 +204,7 @@ class AddPasportDataFragment : Fragment() {
             val ins = activity?.contentResolver?.openInputStream(photoUri)
             var son = 0
             if (db.getAllCitizens().size != 0) {
-                son=db.getAllCitizens()[db.getAllCitizens().size].id!!
+                son=db.getAllCitizens()[db.getAllCitizens().size-1].id!!
             }
             val file = File(activity?.filesDir, "imageNew${son}.jpg")
             val fileOutputStream = FileOutputStream(file)

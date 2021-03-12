@@ -210,6 +210,7 @@
                     android:layout_marginRight="24dp"
                     android:textSize="32sp"
                     android:textColor="#fff"
+                    android:id="@+id/saqlash_btn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </androidx.cardview.widget.CardView>
