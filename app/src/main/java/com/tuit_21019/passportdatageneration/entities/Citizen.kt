@@ -5,8 +5,8 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
-@Entity
-class Citizen{
+@Entity(tableName = "citizen")
+class Citizen {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 
@@ -33,7 +33,19 @@ class Citizen{
 
     var fuqaro_rasmi: String? = null
 
-    constructor( id: Int?, ismi: String?, familyasi: String?, otasining_ismi: String?, viloyati: String?, shahar_tuman: String?, uyining_manzili: String?, passport_olgan_vaqti: String?, passport_muddati: String?, jinsi: String?, fuqaro_rasmi: String?
+    @Ignore
+    constructor(
+        id: Int?,
+        ismi: String?,
+        familyasi: String?,
+        otasining_ismi: String?,
+        viloyati: String?,
+        shahar_tuman: String?,
+        uyining_manzili: String?,
+        passport_olgan_vaqti: String?,
+        passport_muddati: String?,
+        jinsi: String?,
+        fuqaro_rasmi: String?
     ) {
         this.id = id
         this.ismi = ismi
@@ -48,8 +60,18 @@ class Citizen{
         this.fuqaro_rasmi = fuqaro_rasmi
     }
 
+    @Ignore
     constructor(
-        ismi: String?, familyasi: String?, otasining_ismi: String?, viloyati: String?, shahar_tuman: String?, uyining_manzili: String?, passport_olgan_vaqti: String?, passport_muddati: String?, jinsi: String?, fuqaro_rasmi: String?
+        ismi: String?,
+        familyasi: String?,
+        otasining_ismi: String?,
+        viloyati: String?,
+        shahar_tuman: String?,
+        uyining_manzili: String?,
+        passport_olgan_vaqti: String?,
+        passport_muddati: String?,
+        jinsi: String?,
+        fuqaro_rasmi: String?
     ) {
         this.ismi = ismi
         this.familyasi = familyasi
@@ -63,4 +85,5 @@ class Citizen{
         this.fuqaro_rasmi = fuqaro_rasmi
     }
 
+    constructor()
 }

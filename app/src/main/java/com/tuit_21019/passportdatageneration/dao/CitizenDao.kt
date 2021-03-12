@@ -8,11 +8,12 @@ import com.tuit_21019.passportdatageneration.entities.Citizen
 @Dao
 interface CitizenDao {
     @Query("select * from citizen")
-    fun getAllCitizens():ArrayList<Citizen>
+    fun getAllCitizens():List<Citizen>
 
     @Insert
     fun insertCitizen(citizen: Citizen)
 
-    @Query("select * from citizen where fuqaro_ismi like \":fuqaro_ismi%\"")
-    fun getCitizensBySearchText(fuqaro_ismi: String)
+//    @Query("select * from citizen where fuqaro_ismi like \":fuqaro_ismi%\"")
+//    fun getCitizensBySearchText(fuqaro_ismi: String):List<Citizen>
+
 }

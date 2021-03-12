@@ -26,7 +26,7 @@ class CitizensListFragment : Fragment() {
     ): View {
         root = inflater.inflate(R.layout.fragment_citizens_list, container, false)
 
-        val db = AppDatabase.getInstance(root.context).citizenDao()
+        val db = AppDatabase.get.getDatabase().citizenDao()
         db.insertCitizen(Citizen(0, "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"))
         Log.d("TATU", "onCreateView: "+        db.getAllCitizens()[0].familyasi)
         return root
