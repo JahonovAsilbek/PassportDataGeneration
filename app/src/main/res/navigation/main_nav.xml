@@ -1,5 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_nav">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/menuFragment">
 
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.tuit_21019.passportdatageneration.fragments.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_menuFragment_to_citizensListFragment"
+            app:destination="@id/citizensListFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_addPasportDataFragment"
+            app:destination="@id/addPasportDataFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/citizensListFragment"
+        android:name="com.tuit_21019.passportdatageneration.fragments.CitizensListFragment"
+        android:label="fragment_citizens_list"
+        tools:layout="@layout/fragment_citizens_list" >
+        <action
+            android:id="@+id/action_citizensListFragment_to_citizenDataFragment"
+            app:destination="@id/citizenDataFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPasportDataFragment"
+        android:name="com.tuit_21019.passportdatageneration.fragments.AddPasportDataFragment"
+        android:label="fragment_add_pasport_data"
+        tools:layout="@layout/fragment_add_pasport_data" />
+    <fragment
+        android:id="@+id/citizenDataFragment"
+        android:name="com.tuit_21019.passportdatageneration.fragments.CitizenDataFragment"
+        android:label="fragment_citizen_data"
+        tools:layout="@layout/fragment_citizen_data" />
 </navigation>

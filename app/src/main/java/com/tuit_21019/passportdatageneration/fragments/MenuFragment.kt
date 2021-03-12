@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.tuit_21019.passportdatageneration.R
+import com.tuit_21019.passportdatageneration.databinding.FragmentMenuBinding
 
 class MenuFragment : Fragment() {
 
-    lateinit var root:View
+    var binding:FragmentMenuBinding?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -19,8 +21,22 @@ class MenuFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        root = inflater.inflate(R.layout.fragment_menu, container, false)
+        binding = FragmentMenuBinding.inflate(inflater, container, false)
 
-        return root
+        setCLicks()
+        return binding!!.root
+    }
+    private fun setCLicks() {
+        binding!!.cardCitizensList.setOnClickListener {
+            findNavController().navigate(R.id.citizensListFragment)
+        }
+        binding!!.cardAddPassportData.setOnClickListener {
+            findNavController().navigate(R.id.addPasportDataFragment)
+        }
+    }
+
+    override fun onDestroyView() {
+        binding = null
+        super.onDestroyView()
     }
 }
