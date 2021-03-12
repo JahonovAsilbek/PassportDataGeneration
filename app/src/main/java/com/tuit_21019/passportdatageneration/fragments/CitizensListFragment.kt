@@ -12,7 +12,7 @@ import com.tuit_21019.passportdatageneration.database.AppDatabase
 import com.tuit_21019.passportdatageneration.entities.Citizen
 
 class CitizensListFragment : Fragment() {
-
+    lateinit var db:CitizenDao
     lateinit var root:View
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,9 +26,8 @@ class CitizensListFragment : Fragment() {
     ): View {
         root = inflater.inflate(R.layout.fragment_citizens_list, container, false)
 
-        val db = AppDatabase.get.getDatabase().citizenDao()
-        db.insertCitizen(Citizen(0, "a", "a", "a", "a", "a", "a", "a", "a", "a", "a"))
-        Log.d("TATU", "onCreateView: "+        db.getAllCitizens()[0].familyasi)
+        db = AppDatabase.get.getDatabase().citizenDao()
+
         return root
     }
 
