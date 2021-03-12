@@ -140,6 +140,7 @@
                 app:layout_constraintTop_toBottomOf="@id/passport_olgan_vaqti_et" />
 
             <EditText
+                android:visibility="gone"
                 android:id="@+id/passport_seriya_raqam_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
