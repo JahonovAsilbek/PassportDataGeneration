@@ -1,15 +1,21 @@
 package com.tuit_21019.passportdatageneration.fragments
 
+import android.annotation.SuppressLint
+import android.graphics.BitmapFactory
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.tuit_21019.passportdatageneration.R
+import com.tuit_21019.passportdatageneration.databinding.FragmentCitizenDataBinding
+import com.tuit_21019.passportdatageneration.entities.Citizen
+import java.io.File
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM1 = "citizen"
 private const val ARG_PARAM2 = "param2"
 
 /**
@@ -19,42 +25,58 @@ private const val ARG_PARAM2 = "param2"
  */
 class CitizenDataFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
+    private var citizen: Citizen? = null
     private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
+            citizen = it.getSerializable(ARG_PARAM1) as Citizen?
             param2 = it.getString(ARG_PARAM2)
         }
     }
 
+    lateinit var binding: FragmentCitizenDataBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_citizen_data, container, false)
+    ): View {
+        binding = FragmentCitizenDataBinding.inflate(layoutInflater, container, false)
+        setToolbar()
+        setDataToView()
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CitizenDataFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CitizenDataFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    @SuppressLint("SetTextI18n")
+    private fun setDataToView() {
+        val imagePath = File(citizen?.fuqaro_rasmi)
+        if (imagePath.exists()) {
+            val bitMap = BitmapFactory.decodeFile(imagePath.absolutePath)
+            binding.image.setImageBitmap(bitMap)
+        } else {
+            binding.image.setImageResource(R.drawable.ic_baseline_image_24)
+        }
+
+        binding.toolbar.title="${citizen?.ismi} ${citizen?.familyasi}"
+        binding.name.text = "Ismi: ${citizen?.ismi}"
+        binding.surname.text = "Familiyasi: ${citizen?.familyasi}"
+        binding.patronomic.text = "Familiyasi: ${citizen?.otasining_ismi}"
+        binding.region.text = "Viloyat: ${citizen?.viloyati}"
+        binding.city.text = "Shahar/tuman: ${citizen?.shahar_tuman}"
+        binding.adress.text = "Uy manzili: ${citizen?.uyining_manzili}"
+        binding.passportNumber.text = "Passport raqami: ${citizen?.passport_raqami}"
+        binding.dateOfIssue.text = "Passport berilgan sanasi: ${citizen?.passport_olgan_vaqti}"
+        binding.dateOfExpiry.text = "Passport muddati${citizen?.passport_muddati}"
+        binding.sex.text = "Jinsi: ${citizen?.jinsi}"
     }
+
+    private fun setToolbar() {
+        binding.toolbar.setNavigationIcon(R.drawable.ic_backbtn)
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
 }

@@ -50,7 +50,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sequence"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:text="Suvonov Sanjar"
+            android:text="AA 007 2001"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:textColor="@android:color/black"

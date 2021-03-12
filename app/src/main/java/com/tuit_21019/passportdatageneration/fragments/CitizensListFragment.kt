@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.tuit_21019.passportdatageneration.R
 import com.tuit_21019.passportdatageneration.adapters.PassportAdapter
 import com.tuit_21019.passportdatageneration.dao.CitizenDao
@@ -39,24 +40,56 @@ class CitizensListFragment : Fragment() {
         setToolbar()
         loadData()
         loadAdapter()
-
+        itemClick()
 
         return binding.root
     }
 
+    private fun itemClick() {
+        adapter?.onItemClick = object : PassportAdapter.OnItemClick {
+            override fun onClick(citizen: Citizen) {
+                val bundle = Bundle()
+                bundle.putSerializable("citizen", citizen)
+                findNavController().navigate(R.id.citizenDataFragment, bundle)
+            }
+        }
+    }
+
     private fun setToolbar() {
-        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationIcon(R.drawable.ic_backbtn)
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun loadAdapter() {
         adapter?.setAdapter(citizensList!!)
-
+        binding.citizenRv.adapter = adapter
     }
 
     private fun loadData() {
         citizensList = ArrayList()
         citizensList = citizenDao?.getAllCitizens() as ArrayList
+
+        for (i in 0 until 20) {
+
+            citizensList?.add(
+                Citizen(
+                    1,
+                    "Olimjon",
+                    "Rustamov",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "AA 007 2001",
+                    "",
+                    "",
+                    "",
+                    ""
+                )
+            )
+        }
     }
 
 }

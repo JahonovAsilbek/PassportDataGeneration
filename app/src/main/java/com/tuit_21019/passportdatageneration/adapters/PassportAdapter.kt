@@ -10,7 +10,7 @@ import com.tuit_21019.passportdatageneration.entities.Citizen
 class PassportAdapter : RecyclerView.Adapter<PassportAdapter.VH>() {
 
     private var citizenList: ArrayList<Citizen>? = null
-    private var onItemClick: OnItemClick? = null
+     var onItemClick: OnItemClick? = null
 
     fun setAdapter(citizenList: ArrayList<Citizen>) {
         this.citizenList = citizenList
