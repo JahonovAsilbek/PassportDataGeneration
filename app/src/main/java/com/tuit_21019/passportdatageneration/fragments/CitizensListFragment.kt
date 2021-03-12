@@ -70,26 +70,6 @@ class CitizensListFragment : Fragment() {
     private fun loadData() {
         citizensList = ArrayList()
         citizensList = citizenDao?.getAllCitizens() as ArrayList
-
-        for (i in 0 until 20) {
-
-            citizensList?.add(
-                Citizen(
-                    1,
-                    "Olimjon",
-                    "Rustamov",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "AA 007 2001",
-                    "",
-                    "",
-                    "",
-                    ""
-                )
-            )
-        }
     }
 
 }
