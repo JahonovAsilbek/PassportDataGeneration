@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.tuit_21019.passportdatageneration.R
+import com.tuit_21019.passportdatageneration.dao.CitizenDao
+import com.tuit_21019.passportdatageneration.database.AppDatabase
 
 class CitizensListFragment : Fragment() {
 
@@ -21,6 +23,9 @@ class CitizensListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         root = inflater.inflate(R.layout.fragment_citizens_list, container, false)
+
+        val citizenDao = AppDatabase.getInstance(root.context).citizenDao()
+
 
         return root
     }
