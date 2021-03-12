@@ -1,5 +1,6 @@
 package com.tuit_21019.passportdatageneration.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -14,9 +15,15 @@ class PassportAdapter : RecyclerView.Adapter<PassportAdapter.VH>() {
         this.citizenList = citizenList
     }
 
-    inner class VH(itemPassportBinding: ItemPassportBinding) :
+    inner class VH(var itemPassportBinding: ItemPassportBinding) :
         RecyclerView.ViewHolder(itemPassportBinding.root) {
 
+        @SuppressLint("SetTextI18n")
+        fun onBind(citizen: Citizen) {
+            itemPassportBinding.sequence.text=citizen.id.toString()
+            itemPassportBinding.name.text="${citizen.familyasi} ${citizen.ismi}"
+            itemPassportBinding.passport.text=citizen.passport_raqami
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -24,7 +31,7 @@ class PassportAdapter : RecyclerView.Adapter<PassportAdapter.VH>() {
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-
+        holder.onBind(citizenList!![position])
     }
 
     override fun getItemCount(): Int = citizenList!!.size

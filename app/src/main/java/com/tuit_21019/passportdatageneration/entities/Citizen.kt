@@ -25,6 +25,8 @@ class Citizen {
 
     var uyining_manzili: String? = null
 
+    var passport_raqami:String?=null
+
     var passport_olgan_vaqti: String? = null
 
     var passport_muddati: String? = null
@@ -32,6 +34,9 @@ class Citizen {
     var jinsi: String? = null
 
     var fuqaro_rasmi: String? = null
+
+
+    constructor()
 
     @Ignore
     constructor(
@@ -42,6 +47,7 @@ class Citizen {
         viloyati: String?,
         shahar_tuman: String?,
         uyining_manzili: String?,
+        passport_raqami: String?,
         passport_olgan_vaqti: String?,
         passport_muddati: String?,
         jinsi: String?,
@@ -54,6 +60,7 @@ class Citizen {
         this.viloyati = viloyati
         this.shahar_tuman = shahar_tuman
         this.uyining_manzili = uyining_manzili
+        this.passport_raqami = passport_raqami
         this.passport_olgan_vaqti = passport_olgan_vaqti
         this.passport_muddati = passport_muddati
         this.jinsi = jinsi
@@ -68,6 +75,7 @@ class Citizen {
         viloyati: String?,
         shahar_tuman: String?,
         uyining_manzili: String?,
+        passport_raqami: String?,
         passport_olgan_vaqti: String?,
         passport_muddati: String?,
         jinsi: String?,
@@ -79,11 +87,12 @@ class Citizen {
         this.viloyati = viloyati
         this.shahar_tuman = shahar_tuman
         this.uyining_manzili = uyining_manzili
+        this.passport_raqami = passport_raqami
         this.passport_olgan_vaqti = passport_olgan_vaqti
         this.passport_muddati = passport_muddati
         this.jinsi = jinsi
         this.fuqaro_rasmi = fuqaro_rasmi
     }
 
-    constructor()
+
 }
