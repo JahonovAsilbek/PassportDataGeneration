@@ -2,7 +2,6 @@ package com.tuit_21019.passportdatageneration.fragments
 
 import android.Manifest
 import android.app.AlertDialog
-import android.app.DatePickerDialog
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -11,7 +10,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
@@ -63,7 +61,6 @@ class AddPasportDataFragment : Fragment() {
         loadData()
         loadAdapter()
         setClickMtd()
-        dateClick()
 
         db = AppDatabase.get.getDatabase().citizenDao()
         dialog_view = LayoutInflater.from(binding.root.context)
@@ -74,20 +71,7 @@ class AddPasportDataFragment : Fragment() {
 
         setCameraClick()
         setGalleryClick()
-
         return binding.root
-    }
-
-    private fun dateClick() {
-        binding.passportOlganVaqtiEt.setOnClickListener {
-            val dialog = DatePickerDialog(binding.root.context)
-            dialog.datePicker.setOnDateChangedListener { datePicker, year, month, day ->
-                binding.passportOlganVaqtiEt.setText("%02d:%02d:%")
-                binding.passportOlganVaqtiEt.setText("$day.${month+1}.$year")
-                binding.passportMuddatiEt.setText("${day - 1}.${month + 1}.${year+10}")
-            }
-            dialog.show()
-        }
     }
 
 
@@ -200,7 +184,7 @@ class AddPasportDataFragment : Fragment() {
             val passport_muddati = binding.passportMuddatiEt.text.toString().trim()
 
             val r = Random()
-            val passport_seriya_raqami = "AC " + (r.nextInt(9999999 - 1000000) + 1000000)
+            val passport_seriya_raqami = "AC "+(r.nextInt(9999999 - 1000000) + 1000000)
 
             Log.d("AAAA", "seriya: $passport_seriya_raqami")
 
@@ -210,37 +194,23 @@ class AddPasportDataFragment : Fragment() {
                 && passport_seriya_raqami != "" && jinsi != "" && image_path != ""
             ) {
 
-                val dialog = AlertDialog.Builder(binding.root.context)
-                dialog.setMessage("Ma'lumotlar to'g'riligiga ishonchingiz komilmi?")
-                dialog.setPositiveButton(
-                    "Ha"
-                ) { p0, p1 ->
-                    db.insertCitizen(
-                        Citizen(
-                            ismi,
-                            familyasi,
-                            otasining_ismi,
-                            viloyati,
-                            shahar_tuman,
-                            uyining_manzili,
-                            passport_seriya_raqami,
-                            passport_olgan_vaqti,
-                            passport_muddati,
-                            jinsi,
-                            image_path
-                        )
+                db.insertCitizen(
+                    Citizen(
+                        ismi,
+                        familyasi,
+                        otasining_ismi,
+                        viloyati,
+                        shahar_tuman,
+                        uyining_manzili,
+                        passport_seriya_raqami,
+                        passport_olgan_vaqti,
+                        passport_muddati,
+                        jinsi,
+                        image_path
                     )
-                    p0?.cancel()
-                    Snackbar.make(binding.root, "Muvaffaqiyatli qo'shildi", Snackbar.LENGTH_LONG)
-                        .show()
-                    findNavController().popBackStack()
-                }
+                )
 
-                dialog.setNegativeButton(
-                    "Yo'q"
-                ) { p0, p1 -> p0?.cancel() }
-
-                dialog.show()
+                Snackbar.make(binding.root, "Muvaffaqiyatli qo'shildi", Snackbar.LENGTH_LONG).show()
             } else {
                 Snackbar.make(binding.root, "Barcha maydonlarni to'ldiring!", Snackbar.LENGTH_LONG)
                     .show()
