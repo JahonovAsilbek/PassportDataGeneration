@@ -139,20 +139,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/passport_olgan_vaqti_et" />
 
-            <EditText
-                android:visibility="gone"
-                android:id="@+id/passport_seriya_raqam_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/et_bg"
-                android:hint="Passport seriya va raqami"
-                android:padding="12dp"
-                android:textSize="21sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/passport_muddati_et" />
-
             <Spinner
                 android:id="@+id/jinsi_spinner"
                 android:layout_width="match_parent"
@@ -164,7 +150,7 @@
                 android:textSize="21sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/passport_seriya_raqam_et" />
+                app:layout_constraintTop_toBottomOf="@id/passport_muddati_et" />
 
             <ImageView
                 android:id="@+id/select_image"
