@@ -185,6 +185,7 @@ class AddPasportDataFragment : Fragment() {
                     passport_seriya_raqami,passport_olgan_vaqti,passport_muddati,jinsi,image_path))
 
                 Snackbar.make(binding.root,"Muvaffaqiyatli qo'shildi",Snackbar.LENGTH_LONG).show()
+                findNavController().popBackStack()
             } else{
                 Snackbar.make(binding.root,"Barcha maydonlarni to'ldiring!",Snackbar.LENGTH_LONG).show()
             }
