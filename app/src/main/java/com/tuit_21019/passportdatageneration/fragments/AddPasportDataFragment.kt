@@ -2,6 +2,7 @@ package com.tuit_21019.passportdatageneration.fragments
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -194,23 +195,34 @@ class AddPasportDataFragment : Fragment() {
                 && passport_seriya_raqami != "" && jinsi != "" && image_path != ""
             ) {
 
-                db.insertCitizen(
-                    Citizen(
-                        ismi,
-                        familyasi,
-                        otasining_ismi,
-                        viloyati,
-                        shahar_tuman,
-                        uyining_manzili,
-                        passport_seriya_raqami,
-                        passport_olgan_vaqti,
-                        passport_muddati,
-                        jinsi,
-                        image_path
+                val dialog = AlertDialog.Builder(binding.root.context)
+                dialog.setMessage("Ma'lumotlar to'g'riligiga ishonchingiz komilmi?")
+                dialog.setPositiveButton("Ha"
+                ) { p0, p1 ->
+                    db.insertCitizen(
+                        Citizen(
+                            ismi,
+                            familyasi,
+                            otasining_ismi,
+                            viloyati,
+                            shahar_tuman,
+                            uyining_manzili,
+                            passport_seriya_raqami,
+                            passport_olgan_vaqti,
+                            passport_muddati,
+                            jinsi,
+                            image_path
+                        )
                     )
-                )
+                    p0?.cancel()
+                    Snackbar.make(binding.root, "Muvaffaqiyatli qo'shildi", Snackbar.LENGTH_LONG).show()
+                    findNavController().popBackStack()
+                }
 
-                Snackbar.make(binding.root, "Muvaffaqiyatli qo'shildi", Snackbar.LENGTH_LONG).show()
+                dialog.setNegativeButton("Yo'q"
+                ) { p0, p1 -> p0?.cancel() }
+
+                dialog.show()
             } else {
                 Snackbar.make(binding.root, "Barcha maydonlarni to'ldiring!", Snackbar.LENGTH_LONG)
                     .show()

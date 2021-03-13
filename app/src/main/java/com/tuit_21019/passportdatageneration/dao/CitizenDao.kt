@@ -8,7 +8,7 @@ import com.tuit_21019.passportdatageneration.entities.Citizen
 @Dao
 interface CitizenDao {
     @Query("select * from citizen")
-    fun getAllCitizens():List<Citizen>
+    fun getAllCitizens(): List<Citizen>
 
     @Insert
     fun insertCitizen(citizen: Citizen)
