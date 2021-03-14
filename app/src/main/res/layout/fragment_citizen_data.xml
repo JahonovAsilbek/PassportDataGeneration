@@ -51,7 +51,6 @@
                 android:background="@android:color/transparent"
                 android:clickable="true"
                 android:focusable="true"
-                android:rotation="-90"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_baseline_image_24" />
 
