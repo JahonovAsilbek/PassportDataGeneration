@@ -3,6 +3,7 @@ package com.tuit_21019.passportdatageneration
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.tuit_21019.passportdatageneration.databinding.ActivitySplashBinding
@@ -21,7 +22,7 @@ class SplashActivity : AppCompatActivity() {
 
         // we used the postDelayed(Runnable, time) method
         // to send a message with a delayed time.
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
