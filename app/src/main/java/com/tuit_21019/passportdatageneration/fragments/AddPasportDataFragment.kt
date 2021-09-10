@@ -2,6 +2,9 @@ package com.tuit_21019.passportdatageneration.fragments
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -12,16 +15,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.github.florent37.runtimepermission.kotlin.askPermission
 import com.google.android.material.snackbar.Snackbar
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.single.PermissionListener
 import com.tuit_21019.passportdatageneration.BuildConfig
 import com.tuit_21019.passportdatageneration.R
 import com.tuit_21019.passportdatageneration.adapters.MySpinnerAdapter
@@ -60,7 +59,7 @@ class AddPasportDataFragment : Fragment() {
         setToolbar()
         loadData()
         loadAdapter()
-        setClickMtd()
+        imageClick()
 
         db = AppDatabase.get.getDatabase().citizenDao()
         dialog_view = LayoutInflater.from(binding.root.context)
@@ -71,9 +70,56 @@ class AddPasportDataFragment : Fragment() {
 
         setCameraClick()
         setGalleryClick()
+        saveClick()
         return binding.root
     }
 
+    private fun saveClick() {
+        binding.saqlashBtn.setOnClickListener {
+            val ismi = binding.fuqaroIsmiEt.text.toString().trim()
+            val familyasi: String = binding.fuqaroFamilyasiEt.text.toString().trim()
+            val otasining_ismi = binding.fuqaroOtasiningIsmiEt.text.toString().trim()
+            val viloyati = viloyatList!![binding.viloyatiSpinner.selectedItemPosition]
+            val shahar_tuman = binding.shaharTumanEt.text.toString().trim()
+            val uyining_manzili = binding.uyiningManziliEt.text.toString().trim()
+            val passport_olgan_vaqti = binding.passportOlganVaqtiEt.text.toString().trim()
+            val passport_muddati = binding.passportMuddatiEt.text.toString().trim()
+
+            val r = Random()
+            val passport_seriya_raqami = "AC " + (r.nextInt(9999999 - 1000000) + 1000000)
+
+            Log.d("AAAA", "seriya: $passport_seriya_raqami")
+
+            val jinsi = jinsList!![binding.jinsiSpinner.selectedItemPosition]
+            if (ismi != "" && familyasi != "" && otasining_ismi != "" && viloyati != "" && shahar_tuman != ""
+                && uyining_manzili != "" && passport_olgan_vaqti != "" && passport_muddati != ""
+                && passport_seriya_raqami != "" && jinsi != "" && image_path != ""
+            ) {
+
+                db.insertCitizen(
+                    Citizen(
+                        ismi,
+                        familyasi,
+                        otasining_ismi,
+                        viloyati,
+                        shahar_tuman,
+                        uyining_manzili,
+                        passport_seriya_raqami,
+                        passport_olgan_vaqti,
+                        passport_muddati,
+                        jinsi,
+                        image_path
+                    )
+                )
+
+                Snackbar.make(binding.root, "Muvaffaqiyatli qo'shildi", Snackbar.LENGTH_LONG).show()
+                findNavController().popBackStack()
+            } else {
+                Snackbar.make(binding.root, "Barcha maydonlarni to'ldiring!", Snackbar.LENGTH_LONG)
+                    .show()
+            }
+        }
+    }
 
     private fun setToolbar() {
         binding.toolbar.setNavigationOnClickListener {
@@ -111,7 +157,6 @@ class AddPasportDataFragment : Fragment() {
 
     }
 
-
     private var image_path = ""
 
     //upload image from GALLERY
@@ -134,35 +179,48 @@ class AddPasportDataFragment : Fragment() {
 
     private fun setGalleryClick() {
         dialog_view.choose_gallery_btn.setOnClickListener {
-            Dexter.withContext(activity)
-                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(object : PermissionListener {
-                    override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
-                        getImageContent.launch("image/*")
-                        dialog.cancel()
-                        dialog.dismiss()
-                    }
+            if (ContextCompat.checkSelfPermission(
+                    binding.root.context,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
 
-                    override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
-                        Snackbar.make(binding.root, "Ruxsat berish zarur", Snackbar.LENGTH_LONG)
-                            .show()
-                    }
-
-                    override fun onPermissionRationaleShouldBeShown(
-                        p0: PermissionRequest?,
-                        p1: PermissionToken?
-                    ) {
-                        Snackbar.make(binding.root, "Ruxsat berish zarur", Snackbar.LENGTH_LONG)
-                            .show()
-                    }
-                })
-                .check();
+            ) {
+                getImageContent.launch("image/*")
+            }
+            dialog.cancel()
         }
     }
 
 
-    private fun setClickMtd() {
+    private fun imageClick() {
+        binding.selectImage.setOnClickListener {
+            askPermission(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+            ) {
+                showCameraGalleryDialog()
+            }.onDeclined { e ->
+                if (e.hasDenied()) {
+                    AlertDialog.Builder(binding.root.context)
+                        .setMessage("Please accept our permissions")
+                        .setPositiveButton("yes") { dialog, which ->
+                            e.askAgain();
+                        } //ask again
+                        .setNegativeButton("no") { dialog, which ->
+                            dialog.dismiss();
+                        }
+                        .show();
+                }
+                if (e.hasForeverDenied()) {
+                    e.goToSettings();
+                }
+            }
+        }
+    }
+
+    private fun showCameraGalleryDialog() {
         dialog = AlertDialog.Builder(binding.root.context).create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         binding.selectImage.setOnClickListener {
             dialog_view.dialog_bekor_qilish.setOnClickListener {
                 dialog.cancel()
@@ -171,50 +229,6 @@ class AddPasportDataFragment : Fragment() {
             dialog.setView(dialog_view)
 
             dialog.show()
-        }
-
-        binding.saqlashBtn.setOnClickListener {
-            val ismi = binding.fuqaroIsmiEt.text.toString().trim()
-            val familyasi: String = binding.fuqaroFamilyasiEt.text.toString().trim()
-            val otasining_ismi = binding.fuqaroOtasiningIsmiEt.text.toString().trim()
-            val viloyati = viloyatList!![binding.viloyatiSpinner.selectedItemPosition]
-            val shahar_tuman = binding.shaharTumanEt.text.toString().trim()
-            val uyining_manzili = binding.uyiningManziliEt.text.toString().trim()
-            val passport_olgan_vaqti = binding.passportOlganVaqtiEt.text.toString().trim()
-            val passport_muddati = binding.passportMuddatiEt.text.toString().trim()
-
-            val r = Random()
-            val passport_seriya_raqami = "AC "+(r.nextInt(9999999 - 1000000) + 1000000)
-
-            Log.d("AAAA", "seriya: $passport_seriya_raqami")
-
-            val jinsi = jinsList!![binding.jinsiSpinner.selectedItemPosition]
-            if (ismi != "" && familyasi != "" && otasining_ismi != "" && viloyati != "" && shahar_tuman != ""
-                && uyining_manzili != "" && passport_olgan_vaqti != "" && passport_muddati != ""
-                && passport_seriya_raqami != "" && jinsi != "" && image_path != ""
-            ) {
-
-                db.insertCitizen(
-                    Citizen(
-                        ismi,
-                        familyasi,
-                        otasining_ismi,
-                        viloyati,
-                        shahar_tuman,
-                        uyining_manzili,
-                        passport_seriya_raqami,
-                        passport_olgan_vaqti,
-                        passport_muddati,
-                        jinsi,
-                        image_path
-                    )
-                )
-
-                Snackbar.make(binding.root, "Muvaffaqiyatli qo'shildi", Snackbar.LENGTH_LONG).show()
-            } else {
-                Snackbar.make(binding.root, "Barcha maydonlarni to'ldiring!", Snackbar.LENGTH_LONG)
-                    .show()
-            }
         }
     }
 
@@ -256,28 +270,15 @@ class AddPasportDataFragment : Fragment() {
 
     private fun setCameraClick() {
         dialog_view.choose_camera_btn.setOnClickListener {
-            Dexter.withContext(activity)
-                .withPermission(Manifest.permission.CAMERA)
-                .withListener(object : PermissionListener {
-                    override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
-                        getCameraImage.launch(photoUri)
-                        dialog.cancel()
-                        dialog.dismiss()
-                    }
+            if (ContextCompat.checkSelfPermission(
+                    binding.root.context,
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
 
-                    override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
-                        Snackbar.make(binding.root, "Ruxsat berish zarur", Snackbar.LENGTH_LONG)
-                            .show()
-                    }
-
-                    override fun onPermissionRationaleShouldBeShown(
-                        p0: PermissionRequest?,
-                        p1: PermissionToken?
-                    ) {
-                        Snackbar.make(binding.root, "Ruxsat berish zarur", Snackbar.LENGTH_LONG)
-                            .show()
-                    }
-                }).check();
+            ) {
+                getCameraImage.launch(photoUri)
+            }
+            dialog.cancel()
         }
     }
 }

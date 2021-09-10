@@ -15,7 +15,6 @@ import com.tuit_21019.passportdatageneration.entities.Citizen
 
 class CitizensListFragment : Fragment() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         database = AppDatabase.get.getDatabase()
@@ -55,7 +54,7 @@ class CitizensListFragment : Fragment() {
     }
 
     private fun setToolbar() {
-        binding.toolbar.setNavigationIcon(R.drawable.ic_backbtn)
+        binding.toolbar.setNavigationIcon(R.drawable.ic_left_arrow)
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
