@@ -1,10 +1,14 @@
 package com.tuit_21019.passportdatageneration.fragments
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
@@ -13,41 +17,86 @@ import com.tuit_21019.passportdatageneration.R
 import com.tuit_21019.passportdatageneration.adapters.PassportAdapter
 import com.tuit_21019.passportdatageneration.dao.CitizenDao
 import com.tuit_21019.passportdatageneration.database.AppDatabase
-import com.tuit_21019.passportdatageneration.databinding.FragmentCitizensListBinding
+import com.tuit_21019.passportdatageneration.databinding.FragmentSearchBinding
 import com.tuit_21019.passportdatageneration.entities.Citizen
 
-class CitizensListFragment : Fragment() {
+class SearchFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         database = AppDatabase.get.getDatabase()
-        citizenDao = database!!.citizenDao()
+        getDao = database.citizenDao()
         adapter = PassportAdapter()
-        setHasOptionsMenu(true)
-        setMenuVisibility(true)
     }
 
-    lateinit var binding: FragmentCitizensListBinding
-    private var adapter: PassportAdapter? = null
-    private var database: AppDatabase? = null
-    private var citizenDao: CitizenDao? = null
-    private var citizensList: ArrayList<Citizen>? = null
+    lateinit var binding: FragmentSearchBinding
+    lateinit var data: ArrayList<Citizen>
+    lateinit var database: AppDatabase
+    lateinit var getDao: CitizenDao
+    lateinit var adapter: PassportAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCitizensListBinding.inflate(layoutInflater, container, false)
-        setToolbar()
+        binding = FragmentSearchBinding.inflate(layoutInflater, null, false)
+
+        binding.searchView.requestFocus()
+        binding.searchView.isFocusableInTouchMode = true
+        val imm: InputMethodManager? =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        imm?.showSoftInput(binding.searchView, InputMethodManager.SHOW_IMPLICIT)
+
         loadData()
         loadAdapter()
         itemClick()
+        searchText()
+        cancelClick()
 
         return binding.root
     }
 
+    private fun searchText() {
+        binding.searchView.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                filter(s.toString())
+            }
+        })
+    }
+
+
+    private fun filter(text: String) {
+        val filteredList = ArrayList<Citizen>()
+        for (item in data) {
+            if (item.name!!.lowercase().contains(text.lowercase()) || item.surname
+                !!.lowercase().contains(text.lowercase())
+            ) {
+                filteredList.add(item)
+            }
+        }
+        adapter.filterList(filteredList)
+    }
+
+    private fun cancelClick() {
+        binding.cancelSearching.setOnClickListener {
+            if (binding.searchView.text.isNotEmpty()) {
+                binding.searchView.setText(null)
+            } else {
+                findNavController().popBackStack()
+            }
+        }
+    }
+
     private fun itemClick() {
-        adapter?.onItemClick = object : PassportAdapter.OnItemClick {
+        adapter.onItemClick = object : PassportAdapter.OnItemClick {
             override fun onClick(citizen: Citizen) {
                 val bundle = Bundle()
                 bundle.putSerializable("citizen", citizen)
@@ -74,7 +123,7 @@ class CitizensListFragment : Fragment() {
                             dialog.setPositiveButton(
                                 "Ha"
                             ) { dialog, which ->
-                                citizenDao?.deleteCitizen(citizen)
+                                getDao.deleteCitizen(citizen)
                                 loadData()
                                 loadAdapter()
                                 dialog?.cancel()
@@ -92,28 +141,13 @@ class CitizensListFragment : Fragment() {
         }
     }
 
-    private fun setToolbar() {
-        binding.toolbar.setNavigationIcon(R.drawable.ic_left_arrow)
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        binding.toolbar.setOnMenuItemClickListener {
-            if (it.itemId == R.id.search) {
-                findNavController().navigate(R.id.searchFragment)
-            }
-            true
-        }
-    }
-
     private fun loadAdapter() {
-        adapter?.setAdapter(citizensList!!)
+        adapter.setAdapter(data)
         binding.citizenRv.adapter = adapter
     }
 
     private fun loadData() {
-        citizensList = ArrayList()
-        citizensList = citizenDao?.getAllCitizens() as ArrayList
+        data = getDao.getAllCitizens() as ArrayList<Citizen>
     }
 
 }

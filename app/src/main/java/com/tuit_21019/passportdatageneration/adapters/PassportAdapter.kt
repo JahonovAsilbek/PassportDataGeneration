@@ -17,6 +17,11 @@ class PassportAdapter : RecyclerView.Adapter<PassportAdapter.VH>() {
         this.citizenList = citizenList
     }
 
+    fun filterList(filteredList: ArrayList<Citizen>) {
+        citizenList = filteredList
+        notifyDataSetChanged()
+    }
+
     inner class VH(var itemPassportBinding: ItemPassportBinding) :
         RecyclerView.ViewHolder(itemPassportBinding.root) {
 

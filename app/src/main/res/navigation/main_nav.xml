@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_citizensListFragment_to_citizenDataFragment"
             app:destination="@id/citizenDataFragment" />
+        <action
+            android:id="@+id/action_citizensListFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/addPasportDataFragment"
@@ -36,4 +39,12 @@
         android:name="com.tuit_21019.passportdatageneration.fragments.CitizenDataFragment"
         android:label="fragment_citizen_data"
         tools:layout="@layout/fragment_citizen_data" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.tuit_21019.passportdatageneration.fragments.SearchFragment"
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_citizenDataFragment"
+            app:destination="@id/citizenDataFragment" />
+    </fragment>
 </navigation>
