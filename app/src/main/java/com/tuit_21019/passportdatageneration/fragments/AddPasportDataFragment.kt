@@ -3,6 +3,7 @@ package com.tuit_21019.passportdatageneration.fragments
 import android.Manifest
 import android.app.AlertDialog
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -36,6 +37,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+private const val PARAM1 = "citizen"
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class AddPasportDataFragment : Fragment() {
@@ -46,6 +48,14 @@ class AddPasportDataFragment : Fragment() {
     lateinit var db: CitizenDao
     lateinit var dialog_view: View
     lateinit var dialog: AlertDialog
+    private var citizen1: Citizen? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            citizen1 = it.getSerializable(PARAM1) as Citizen
+        }
+    }
 
     var viloyatAdapter: MySpinnerAdapter? = null
     var jinsAdapter: MySpinnerAdapter? = null
@@ -56,8 +66,13 @@ class AddPasportDataFragment : Fragment() {
     ): View {
         binding = FragmentAddPasportDataBinding.inflate(inflater, container, false)
 
+
+
         setToolbar()
         loadData()
+        if (citizen1 != null) {
+            loadDataToView()
+        }
         loadAdapter()
         imageClick()
 
@@ -72,6 +87,25 @@ class AddPasportDataFragment : Fragment() {
         setGalleryClick()
         saveClick()
         return binding.root
+    }
+
+    private fun loadDataToView() {
+        binding.fuqaroIsmiEt.setText(citizen1?.name)
+        binding.fuqaroFamilyasiEt.setText(citizen1?.surname)
+        binding.fuqaroOtasiningIsmiEt.setText(citizen1?.patronomic)
+        binding.viloyatiSpinner.setSelection(viloyatList!!.indexOf(citizen1?.region))
+        binding.shaharTumanEt.setText(citizen1?.city)
+        binding.uyiningManziliEt.setText(citizen1?.adress)
+        binding.passportOlganVaqtiEt.setText(citizen1?.givenDate)
+        binding.passportMuddatiEt.setText(citizen1?.replacementDate)
+        binding.jinsiSpinner.setSelection(jinsList!!.indexOf(citizen1?.gender))
+        image_path = citizen1?.image.toString()
+
+        val imagePath = File(citizen1?.image)
+        if (imagePath.exists()) {
+            val bitMap = BitmapFactory.decodeFile(imagePath.absolutePath)
+            binding.selectImage.setImageBitmap(bitMap)
+        }
     }
 
     private fun saveClick() {
@@ -91,13 +125,29 @@ class AddPasportDataFragment : Fragment() {
             Log.d("AAAA", "seriya: $passport_seriya_raqami")
 
             val jinsi = jinsList!![binding.jinsiSpinner.selectedItemPosition]
-            if (ismi != "" && familyasi != "" && otasining_ismi != "" && viloyati != "" && shahar_tuman != ""
-                && uyining_manzili != "" && passport_olgan_vaqti != "" && passport_muddati != ""
-                && passport_seriya_raqami != "" && jinsi != "" && image_path != ""
+            if (ismi.isNotEmpty() && familyasi.isNotEmpty() && otasining_ismi.isNotEmpty() && viloyati.isNotEmpty() && shahar_tuman.isNotEmpty()
+                && uyining_manzili.isNotEmpty() && passport_olgan_vaqti.isNotEmpty() && passport_muddati.isNotEmpty()
+                && passport_seriya_raqami.isNotEmpty() && jinsi.isNotEmpty() && image_path.isNotEmpty()
             ) {
 
-                db.insertCitizen(
-                    Citizen(
+                if (citizen1 == null) {
+                    db.insertCitizen(
+                        Citizen(
+                            ismi,
+                            familyasi,
+                            otasining_ismi,
+                            viloyati,
+                            shahar_tuman,
+                            uyining_manzili,
+                            passport_seriya_raqami,
+                            passport_olgan_vaqti,
+                            passport_muddati,
+                            jinsi,
+                            image_path
+                        )
+                    )
+                } else {
+                    db.updateCitizen(
                         ismi,
                         familyasi,
                         otasining_ismi,
@@ -108,9 +158,10 @@ class AddPasportDataFragment : Fragment() {
                         passport_olgan_vaqti,
                         passport_muddati,
                         jinsi,
-                        image_path
+                        image_path,
+                        citizen1?.id!!
                     )
-                )
+                }
 
                 Snackbar.make(binding.root, "Muvaffaqiyatli qo'shildi", Snackbar.LENGTH_LONG).show()
                 findNavController().popBackStack()

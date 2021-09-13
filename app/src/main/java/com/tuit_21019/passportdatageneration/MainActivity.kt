@@ -22,21 +22,4 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return findNavController(R.id.nav_host_fragment_container).navigateUp()
     }
-
-    override fun onBackPressed() {
-        if (doublePressed) {
-            super.onBackPressed()
-            return
-        }
-        doublePressed = true
-        handler = Handler(Looper.getMainLooper())
-        Toast.makeText(
-            this,
-            "Dasturdan chiqish uchun yana bir marta bosing",
-            Toast.LENGTH_SHORT
-        ).show()
-        handler.postDelayed({
-            doublePressed = false
-        }, 2000)
-    }
 }

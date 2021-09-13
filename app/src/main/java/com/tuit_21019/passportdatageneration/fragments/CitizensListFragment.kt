@@ -1,9 +1,12 @@
 package com.tuit_21019.passportdatageneration.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.tuit_21019.passportdatageneration.R
@@ -49,6 +52,42 @@ class CitizensListFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putSerializable("citizen", citizen)
                 findNavController().navigate(R.id.citizenDataFragment, bundle)
+            }
+
+            override fun onPopupClick(
+                citizen: Citizen,
+                appCompatImageButton: AppCompatImageButton
+            ) {
+                val popupMenu = PopupMenu(binding.root.context, appCompatImageButton)
+                popupMenu.inflate(R.menu.popup)
+                popupMenu.setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.edit -> {
+                            val bundle = Bundle()
+                            bundle.putSerializable("citizen", citizen)
+                            findNavController().navigate(R.id.addPasportDataFragment, bundle)
+                        }
+                        R.id.delete -> {
+                            val dialog = AlertDialog.Builder(binding.root.context)
+                            dialog.setTitle("O'chirish")
+                            dialog.setMessage("Rostdan ham ushbu ma'lumotni o'chirmoqchimisiz?")
+                            dialog.setPositiveButton(
+                                "Ha"
+                            ) { dialog, which ->
+                                citizenDao?.deleteCitizen(citizen)
+                                loadData()
+                                loadAdapter()
+                                dialog?.cancel()
+                            }
+                            dialog.setNegativeButton(
+                                "Yo'q"
+                            ) { dialog, which -> dialog?.cancel() }
+                            dialog.show()
+                        }
+                    }
+                    true
+                }
+                popupMenu.show()
             }
         }
     }

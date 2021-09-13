@@ -51,7 +51,7 @@ class CitizenDataFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setDataToView() {
-        val imagePath = File(citizen?.fuqaro_rasmi)
+        val imagePath = File(citizen?.image)
         if (imagePath.exists()) {
             val bitMap = BitmapFactory.decodeFile(imagePath.absolutePath)
             binding.image.setImageBitmap(bitMap)
@@ -59,21 +59,21 @@ class CitizenDataFragment : Fragment() {
             binding.image.setImageResource(R.drawable.ic_baseline_image_24)
         }
 
-        binding.toolbar.title = "${citizen?.ismi} ${citizen?.familyasi}"
-        binding.name.text = "Ismi: ${citizen?.ismi}"
-        binding.surname.text = "Familiyasi: ${citizen?.familyasi}"
-        binding.patronomic.text = "Familiyasi: ${citizen?.otasining_ismi}"
-        binding.region.text = "Viloyat: ${citizen?.viloyati}"
-        binding.city.text = "Shahar/tuman: ${citizen?.shahar_tuman}"
-        binding.adress.text = "Uy manzili: ${citizen?.uyining_manzili}"
-        binding.passportNumber.text = "Passport raqami: ${citizen?.passport_raqami}"
-        binding.dateOfIssue.text = "Passport berilgan sanasi: ${citizen?.passport_olgan_vaqti}"
-        binding.dateOfExpiry.text = "Passport muddati: ${citizen?.passport_muddati}"
-        binding.sex.text = "Jinsi: ${citizen?.jinsi}"
+        binding.toolbar.title = "${citizen?.name} ${citizen?.surname}"
+        binding.name.text = "Ismi: ${citizen?.name}"
+        binding.surname.text = "Familiyasi: ${citizen?.surname}"
+        binding.patronomic.text = "Familiyasi: ${citizen?.patronomic}"
+        binding.region.text = "Viloyat: ${citizen?.region}"
+        binding.city.text = "Shahar/tuman: ${citizen?.city}"
+        binding.adress.text = "Uy manzili: ${citizen?.adress}"
+        binding.passportNumber.text = "Passport raqami: ${citizen?.passportNumber}"
+        binding.dateOfIssue.text = "Passport berilgan sanasi: ${citizen?.givenDate}"
+        binding.dateOfExpiry.text = "Passport muddati: ${citizen?.replacementDate}"
+        binding.sex.text = "Jinsi: ${citizen?.gender}"
     }
 
     private fun setToolbar() {
-        binding.toolbar.setNavigationIcon(R.drawable.ic_backbtn)
+        binding.toolbar.setNavigationIcon(R.drawable.ic_left_arrow)
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
