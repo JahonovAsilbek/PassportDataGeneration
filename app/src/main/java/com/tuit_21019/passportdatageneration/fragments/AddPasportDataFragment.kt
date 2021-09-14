@@ -2,6 +2,7 @@ package com.tuit_21019.passportdatageneration.fragments
 
 import android.Manifest
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -83,10 +84,23 @@ class AddPasportDataFragment : Fragment() {
             FileProvider.getUriForFile(binding.root.context, BuildConfig.APPLICATION_ID, imageFile)
 
 
+        dateClick()
         setCameraClick()
         setGalleryClick()
         saveClick()
         return binding.root
+    }
+
+    private fun dateClick() {
+        binding.givenDate.setOnClickListener {
+            val dialog = DatePickerDialog(binding.root.context)
+
+            dialog.setOnDateSetListener { view, year, month, dayOfMonth ->
+                binding.givenDate.text = "$dayOfMonth.$month.$year"
+                binding.replacementDate.text = "${dayOfMonth}.$month.${year + 10}"
+            }
+            dialog.show()
+        }
     }
 
     private fun loadDataToView() {
@@ -96,8 +110,8 @@ class AddPasportDataFragment : Fragment() {
         binding.viloyatiSpinner.setSelection(viloyatList!!.indexOf(citizen1?.region))
         binding.shaharTumanEt.setText(citizen1?.city)
         binding.uyiningManziliEt.setText(citizen1?.adress)
-        binding.passportOlganVaqtiEt.setText(citizen1?.givenDate)
-        binding.passportMuddatiEt.setText(citizen1?.replacementDate)
+        binding.givenDate.text = citizen1?.givenDate
+        binding.replacementDate.text = citizen1?.replacementDate
         binding.jinsiSpinner.setSelection(jinsList!!.indexOf(citizen1?.gender))
         image_path = citizen1?.image.toString()
 
@@ -116,8 +130,8 @@ class AddPasportDataFragment : Fragment() {
             val viloyati = viloyatList!![binding.viloyatiSpinner.selectedItemPosition]
             val shahar_tuman = binding.shaharTumanEt.text.toString().trim()
             val uyining_manzili = binding.uyiningManziliEt.text.toString().trim()
-            val passport_olgan_vaqti = binding.passportOlganVaqtiEt.text.toString().trim()
-            val passport_muddati = binding.passportMuddatiEt.text.toString().trim()
+            val passport_olgan_vaqti = binding.givenDate.text.toString().trim()
+            val passport_muddati = binding.replacementDate.text.toString().trim()
 
             val r = Random()
             val passport_seriya_raqami = "AC " + (r.nextInt(9999999 - 1000000) + 1000000)

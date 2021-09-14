@@ -175,73 +175,56 @@
                     android:layout_height="wrap_content"
                     android:hint="Uyining manzili"
                     android:inputType="textCapSentences"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout3" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layout5"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <TextView
+                android:id="@+id/given_date"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxStrokeColor="@color/main_color"
-                app:boxStrokeWidthFocused="1.5dp"
-                app:errorEnabled="true"
-                app:errorTextColor="#FF0000"
-                app:helperTextTextColor="@color/main_color"
-                app:hintEnabled="true"
-                app:hintTextColor="@color/main_color"
+                android:layout_height="57dp"
+                android:background="@drawable/border_spinner"
+                android:gravity="center_vertical"
+                android:paddingStart="15dp"
+                android:paddingLeft="15dp"
+                android:text="Passport olgan vaqti"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout4">
+                app:layout_constraintTop_toBottomOf="@id/layout4" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passport_olgan_vaqti_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Passport olgan vaqti"
-                    android:inputType="datetime"
-                    android:textSize="18sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layout6"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <TextView
+                android:id="@+id/replacement_date"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxStrokeColor="@color/main_color"
-                app:boxStrokeWidthFocused="1.5dp"
-                app:errorEnabled="true"
-                app:errorTextColor="#FF0000"
-                app:helperTextTextColor="@color/main_color"
-                app:hintEnabled="true"
-                app:hintTextColor="@color/main_color"
+                android:layout_height="57dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/border_spinner"
+                android:gravity="center_vertical"
+                android:paddingStart="15dp"
+                android:paddingLeft="15dp"
+                android:text="Passport muddati"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout5">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passport_muddati_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Passport muddati"
-                    android:inputType="datetime"
-                    android:textSize="18sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toBottomOf="@id/given_date" />
 
             <Spinner
                 android:id="@+id/jinsi_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="57dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/border_spinner"
                 android:hint="Jinsi"
                 android:padding="12dp"
                 android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout6" />
+                app:layout_constraintTop_toBottomOf="@id/replacement_date" />
 
             <ImageView
                 android:id="@+id/select_image"
